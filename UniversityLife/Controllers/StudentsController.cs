@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UniversityLife.Models;
 using UniversityLife.Services;
 
 namespace UniversityLife.Controllers
 {
+    [Authorize]
     public class StudentsController : Controller
     {
         private readonly ICosomosDbService _cosmosDbService;
@@ -22,7 +24,11 @@ namespace UniversityLife.Controllers
         {
             return View(await _cosmosDbService.GetStudentsAsync("SELECT * FROM c"));
         }
-
+        //[ActionName("IndexActive")]
+        //public async Task<IActionResult> IndexActive()
+        //{
+        //    return View(await _cosmosDbService.GetStudentsAsync("SELECT * FROM c WHERE IsActive=true"));
+        //}
         [ActionName("Create")]
         public IActionResult Create()
         {

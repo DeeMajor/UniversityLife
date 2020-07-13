@@ -15,6 +15,10 @@ using Microsoft.Extensions.Hosting;
 using UniversityLife.Services;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 
 namespace UniversityLife
 {
@@ -38,6 +42,15 @@ namespace UniversityLife
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddSingleton<ICosomosDbService>(InitializeCosmosClientInstanceAsync(Configuration.GetSection("CosmoDb")).GetAwaiter().GetResult());
+            services.AddSignIn(Configuration, "AzureAd");
+
+            services.AddRazorPages().AddMvcOptions(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                              .RequireAuthenticatedUser()
+                              .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }).AddMicrosoftIdentityUI();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
