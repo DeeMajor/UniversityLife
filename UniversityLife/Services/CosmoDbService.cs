@@ -54,9 +54,20 @@ namespace UniversityLife.Services
             return results;
         }
 
+       
+
         public async Task UpdateStudentAsync(string id, Student student)
         {
             await this._Container.UpsertItemAsync<Student>(student, new PartitionKey(id));
+        }
+
+        List<Student>  ICosomosDbService.StudentList(string querString)
+        {
+            //IEnumerable<Student> students = (IEnumerable<Student>)GetStudentsAsync(querString);
+            var stu = GetStudentsAsync(querString);
+            List<Student> records = (List<Student>)stu.Result;
+            
+            return records;
         }
     }
 }

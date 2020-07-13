@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
+using MySql.Data.MySqlClient.Memcached;
 using UniversityLife.Models;
 using UniversityLife.Services;
 
 namespace UniversityLife.Controllers
 {
+   
     [Authorize]
     public class StudentsController : Controller
     {
@@ -18,7 +23,49 @@ namespace UniversityLife.Controllers
             _cosmosDbService = cosmosDbService;
            
         }
+      
+        public IActionResult Excel()
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Students");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Student N0.";
+                worksheet.Cell(currentRow, 2).Value = "Name";
+                worksheet.Cell(currentRow, 3).Value = "Surname";
+                worksheet.Cell(currentRow, 4).Value = "Email";
+                worksheet.Cell(currentRow, 5).Value = "Home Address";
+                worksheet.Cell(currentRow, 6).Value = "Mobile";
+                worksheet.Cell(currentRow, 7).Value = "IsActive";
+                worksheet.Cell(currentRow, 8).Value = "ImageUrl";
 
+            
+                List<Student> asList = _cosmosDbService.StudentList("SELECT * FROM c");
+               
+
+                foreach (var item in asList)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = item.StudentNo;
+                    worksheet.Cell(currentRow, 2).Value = item.FirstName;
+                    worksheet.Cell(currentRow, 3).Value = item.LastName;
+                    worksheet.Cell(currentRow, 4).Value = item.Email;
+                    worksheet.Cell(currentRow, 5).Value = item.HomeAddress;
+                    worksheet.Cell(currentRow, 6).Value = item.MobileNo;
+                    worksheet.Cell(currentRow, 7).Value = item.IsActive;
+                    worksheet.Cell(currentRow, 8).Value = item.ImageUrl;
+
+                }
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, 
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "StudentInfo.xlsx");
+                }
+            }
+        }
         [ActionName("Index")]
         public async Task<IActionResult> Index()
         {
