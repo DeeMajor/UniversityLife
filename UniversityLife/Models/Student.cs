@@ -13,6 +13,7 @@ namespace UniversityLife.Models
         public string Id { get; set; }
 
         [Required]
+        [MaxLength(8), MinLength(8)]
         [Display(Name = "Student Number")]
         [JsonProperty(PropertyName = "studentno")]
         public int StudentNo { get; set; }
@@ -38,8 +39,10 @@ namespace UniversityLife.Models
         [JsonProperty(PropertyName = "homeaddress")]
         public string HomeAddress { get; set; }
 
-        [Required]
-        [Display(Name = "Cell Number")]
+        [Required(ErrorMessage = "You must provide a phone number")]
+        [Display(Name = "Cell Phone")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
         [JsonProperty(PropertyName = "mobileno")]
         public string MobileNo { get; set; }
 
