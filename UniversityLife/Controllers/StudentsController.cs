@@ -10,6 +10,8 @@ using Microsoft.Azure.Cosmos;
 using MySql.Data.MySqlClient.Memcached;
 using UniversityLife.Models;
 using UniversityLife.Services;
+using System.Net.Mail;
+using System.Text;
 
 namespace UniversityLife.Controllers
 {
@@ -64,18 +66,57 @@ namespace UniversityLife.Controllers
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                         "StudentInfo.xlsx");
                 }
+
             }
+        }
+        public IActionResult SendEmail()
+        {
+            try
+            {
+                StringBuilder message = new StringBuilder();
+                MailAddress from = new MailAddress("andilebshange@gmail.com");
+                message.Append("Good Day" + "\n" + "\n");
+                message.Append("Please click on the following link to download all students' information" + "\n");
+                message.Append("href='https://localhost:44325/Students/Excel' ");
+                message.Append("\n" + "\n" + "Regards, " + "\n");
+                message.Append("System Admin");
+
+                MailMessage msg = new MailMessage();
+                msg.From = from;
+                msg.To.Add("andilebshange@gmail.com");
+                msg.Subject = "Student Information";
+                msg.Body = message.ToString();
+                
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential("andilebshange@gmail.com", "141296#Maria");
+                smtp.Send(msg);
+
+
+                ViewBag.Message = "Email has been sent";
+            }
+            
+
+             catch (Exception ex)
+            {
+                ModelState.Clear();
+                ViewBag.Message = $" Sorry we are facing Problem here {ex.Message}";
+            }
+            return RedirectToAction("Index");
         }
         [ActionName("Index")]
         public async Task<IActionResult> Index()
         {
             return View(await _cosmosDbService.GetStudentsAsync("SELECT * FROM c"));
         }
-        //[ActionName("IndexActive")]
-        //public async Task<IActionResult> IndexActive()
-        //{
-        //    return View(await _cosmosDbService.GetStudentsAsync("SELECT * FROM c WHERE IsActive=true"));
-        //}
+        [ActionName("IndexActive")]
+        public async Task<IActionResult> IndexActive()
+        {
+            return View(await _cosmosDbService.GetStudentsAsync("SELECT * FROM c Where c.isactive = true"));
+        }
         [ActionName("Create")]
         public IActionResult Create()
         {

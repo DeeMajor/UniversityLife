@@ -16,11 +16,6 @@
     <link href="~/table/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
-
-
-
-
-
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
@@ -46,18 +41,17 @@
         </div>
     </nav>
 </header>
-<h1 style="text-align:center; color:black"><i>Showing All Students</i></h1>
+<h1 style="text-align:center; color:black"><i>Showing only Active Students</i></h1>
 <div class="container-fluid">
     <p style="display:inline">
         <a asp-action="Create" class="btn btn-success btn-sm">Create New Student</a>
     </p>
-        <p style="display:inline">
-            <a asp-action="SendEmail" class="btn btn-success btn-sm">Send as email</a>
-        </p>
-    
-               <p style="display:inline">
-                   <a asp-action="IndexActive" class="btn btn-primary btn-sm">Show only active students</a>
-               </p>
+    <p style="display:inline">
+        <a asp-action="SendEmail" class="btn btn-success btn-sm">Send as email</a>
+    </p>
+    <p style="display:inline">
+        <a asp-action="Index" class="btn btn-primary btn-sm">Show All students</a>
+    </p>
     <br />
     <br />
     @ViewBag.Message
