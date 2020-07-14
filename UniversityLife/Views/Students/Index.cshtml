@@ -20,125 +20,135 @@
 
 
 
+<body >
 
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UniversityLife</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                <partial name="_LoginPartial" />
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Index">Students</a>
-                    </li>
-                </ul>
+
+    <header >
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UniversityLife</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Index">Students</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-</header>
-<h1 style="text-align:center; color:black"><i>Showing All Students</i></h1>
-<div class="container-fluid">
-    <p style="display:inline">
-        <a asp-action="Create" class="btn btn-success btn-sm">Create New Student</a>
-    </p>
-        <p style="display:inline">
-            <a asp-action="SendEmail" class="btn btn-success btn-sm">Send as email</a>
-        </p>
-    
-               <p style="display:inline">
-                   <a asp-action="IndexActive" class="btn btn-primary btn-sm">Show only active students</a>
-               </p>
-    <br />
-    <br />
-    @ViewBag.Message
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.StudentNo)</th>
-                            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
-                            <th> @Html.DisplayNameFor(model => model.LastName)</th>
-                            <th> @Html.DisplayNameFor(model => model.IsActive)</th>
-                            <th>@Html.DisplayNameFor(model => model.ImageUrl)</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.StudentNo)</th>
-                            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
-                            <th> @Html.DisplayNameFor(model => model.LastName)</th>
-                            <th> @Html.DisplayNameFor(model => model.IsActive)</th>
-                            <th>@Html.DisplayNameFor(model => model.ImageUrl)</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
+        </nav>
+    </header>
+    <h1 style="text-align:center; color:black"><i>Showing All Students</i></h1>
 
+    <div class="container-fluid">
+        <div style="text-align:center">
+            <p style="display:inline">
+                <a asp-action="Create" class="btn btn-success btn-sm">Create New Student</a>
+            </p>
+            <p style="display:inline">
+                <a asp-action="SendEmail" class="btn btn-success btn-sm">Send as email</a>
+            </p>
+
+            <p style="display:inline">
+                <a asp-action="IndexActive" class="btn btn-primary btn-sm">Show only active students</a>
+            </p>
+        </div>      
+        <br />
+        <br />
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
                             <tr>
-                                <td>@Html.DisplayFor(modelItem => item.StudentNo)</td>
-                                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
-                                <td>
-                                    @{
-                                        if (item.ImageUrl != null)
-                                        {
-                                            <img src="@item.ImageUrl" width="100px" alt="student pic">
-                                        }
-
-                                        else
-                                        {
-                                            <p>Please Upload Picture</p>
-                                        }
-
-                                    }
-                                </td>
-                                <td>
-                                    @{
-                                        if (item.ImageUrl != null)
-                                        {
-                                            @Html.ActionLink("Replace Image", "Picture", "Home", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
-                                        }
-                                        else
-                                        {
-                                            @Html.ActionLink("AddPic", "Picture", "Home", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
-                                        }
-                                    }
-
-
-                                    |@Html.ActionLink(" Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
-                                </td>
+                                <th>@Html.DisplayNameFor(model => model.StudentNo)</th>
+                                <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                                <th> @Html.DisplayNameFor(model => model.LastName)</th>
+                                <th> @Html.DisplayNameFor(model => model.IsActive)</th>
+                                <th>@Html.DisplayNameFor(model => model.ImageUrl)</th>
+                                <th></th>
                             </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.StudentNo)</th>
+                                <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                                <th> @Html.DisplayNameFor(model => model.LastName)</th>
+                                <th> @Html.DisplayNameFor(model => model.IsActive)</th>
+                                <th>@Html.DisplayNameFor(model => model.ImageUrl)</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
 
-                        }
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.StudentNo)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                                    <td>
+                                        @{
+                                            if (item.ImageUrl != null)
+                                            {
+                                                <img src="@item.ImageUrl" width="100px" alt="student pic">
+                                            }
+
+                                            else
+                                            {
+                                                <p>Please Upload Picture</p>
+                                            }
+
+                                        }
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (item.ImageUrl != null)
+                                            {
+                                                @Html.ActionLink("Replace Image", "Picture", "Home", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink("AddPic", "Picture", "Home", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                                            }
+                                        }
 
 
-                    </tbody>
-                </table>
+                                        |@Html.ActionLink(" Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                                    </td>
+                                </tr>
+
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+</body>  
+
+    
+
 <!-- Bootstrap core JavaScript-->
 <script src="~/table/vendor/jquery/jquery.min.js"></script>
 <script src="~/table/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -25,7 +25,7 @@ namespace UniversityLife.Controllers
             _cosmosDbService = cosmosDbService;
            
         }
-      
+
         public IActionResult Excel()
         {
             using (var workbook = new XLWorkbook())
@@ -69,6 +69,8 @@ namespace UniversityLife.Controllers
 
             }
         }
+
+        
         public IActionResult SendEmail()
         {
             try
@@ -95,21 +97,23 @@ namespace UniversityLife.Controllers
                 smtp.Credentials = new System.Net.NetworkCredential("andilebshange@gmail.com", "141296#Maria");
                 smtp.Send(msg);
 
+                ViewBag.Message = "Email succesfully sent";
 
-                ViewBag.Message = "Email has been sent";
             }
             
 
              catch (Exception ex)
             {
+
                 ModelState.Clear();
-                ViewBag.Message = $" Sorry we are facing Problem here {ex.Message}";
+                 ViewBag.Message  = $" Sorry we are facing Problem here {ex.Message}";
             }
-            return RedirectToAction("Index");
+            return View();
         }
         [ActionName("Index")]
         public async Task<IActionResult> Index()
         {
+
             return View(await _cosmosDbService.GetStudentsAsync("SELECT * FROM c"));
         }
         [ActionName("IndexActive")]
