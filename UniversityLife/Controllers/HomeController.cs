@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using UniversityLife.Models;
 using UniversityLife.Services;
@@ -27,7 +28,7 @@ namespace UniversityLife.Controllers
 			_configuration = configuration;
 			_cosmosDbService = cosmosDbService;
 		}
-		
+		[AllowAnonymous]
 		public ActionResult Index()
         {
             return View();
